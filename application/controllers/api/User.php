@@ -23,8 +23,7 @@ class User extends REST_Controller
             $user = $this->user->getuser($id);
         }
         
-        
-        
+                
         if($user){
             $this->response([
                 'status'=> true,
@@ -35,6 +34,33 @@ class User extends REST_Controller
                 'status'=> false,
                 'message' => 'Id tidak ditemukan'
             ], REST_Controller::HTTP_NOT_FOUND);
+        }
+    }
+
+    public function index_delete()
+    {
+        $id = $this->delete('id');
+
+        if ($id === null) {
+            $this->response([
+                'status'=> false,
+                'message' => 'Id tidak valid'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        } else {
+            if ($this->user->deleteUser($id) > 0) {
+                // Ok
+                $this->response([
+                    'status'=> true,
+                    'id' => $id,
+                    'message' => 'User telah dihapus'
+                ], REST_Controller::HTTP_NO_CONTENT);
+            } else {
+                // Error
+                $this->response([
+                    'status'=> false,
+                    'message' => 'Id tidak ditemukan'
+                ], REST_Controller::HTTP_BAD_REQUEST);
+            }
         }
     }
 }
