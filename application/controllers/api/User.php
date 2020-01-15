@@ -63,4 +63,27 @@ class User extends REST_Controller
             }
         }
     }
+
+    public function index_post()
+    {
+        $data =  [
+            'nama' => $this->post('nama'),
+            'username' => $this->post('username'),
+            'email' => $this->post('email'),
+            'nomor_hp' => $this->post('nomor_hp')
+        ];
+
+        if ($this->user->createUser($data) > 0)
+        {
+            $this->response([
+                'status'=> true,
+                'message' => 'User telah ditambah'
+            ], REST_Controller::HTTP_CREATED);
+        } else {
+            $this->response([
+                'status'=> false,
+                'message' => 'Gagal menambahkan data'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
 }
