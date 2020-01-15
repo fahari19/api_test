@@ -53,7 +53,7 @@ class User extends REST_Controller
                     'status'=> true,
                     'id' => $id,
                     'message' => 'User telah dihapus'
-                ], REST_Controller::HTTP_NO_CONTENT);
+                ], REST_Controller::HTTP_OK);
             } else {
                 // Error
                 $this->response([
@@ -83,6 +83,30 @@ class User extends REST_Controller
             $this->response([
                 'status'=> false,
                 'message' => 'Gagal menambahkan data'
+            ], REST_Controller::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function index_put()
+    {
+        $id = $this->put('id');
+        $data =  [
+            'nama' => $this->put('nama'),
+            'username' => $this->put('username'),
+            'email' => $this->put('email'),
+            'nomor_hp' => $this->put('nomor_hp')
+        ];
+
+        if ($this->user->updateUser($data, $id) > 0)
+        {
+            $this->response([
+                'status'=> true,
+                'message' => 'Data user telah diperbarui'
+            ], REST_Controller::HTTP_OK);
+        } else {
+            $this->response([
+                'status'=> false,
+                'message' => 'Gagal memperbarui data'
             ], REST_Controller::HTTP_BAD_REQUEST);
         }
     }
