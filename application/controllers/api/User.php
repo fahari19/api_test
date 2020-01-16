@@ -11,6 +11,10 @@ class User extends REST_Controller
     {
         parent::__construct();
         $this->load->model('User_model', 'user');
+
+        // Batasi akses limit perkey perjam  sebanyak 2 kali
+        // $this->methods['method_name']['limit'] = limit_value;
+        $this->methods['index_get']['limit'] = 20;
     }
 
     public function index_get()
